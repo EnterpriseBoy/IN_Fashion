@@ -1,0 +1,174 @@
+<% content_for :title do %>
+Shopping @ IN Fashion
+<% end %>
+
+<% content_for :header do%>
+<div id="search">
+ <%= form_tag "search", method: "get", :class => "form" do %>
+  <%= text_field_tag(:searchbar) %>
+  <%= hidden_field_tag :breadcrumbsCategory, @category %>
+  <%= hidden_field_tag :subcategory, 'none' %>
+  <%= submit_tag "Go", :class => "formsubmit", :style => "margin-bottom: 0px;" %> 
+<% end %>
+</div>
+<% end %>
+
+<% content_for :content do %>
+<div id="refine">
+ <h3>Refine Results</h3>
+ 
+ <div id="refinecont">
+  <div id="sub">
+  <h4>Subcategory</h4>
+   <ul>
+    <% if @category.eql? 'women' %>
+     <li>
+      <%= link_to "Skirts & Dresses", :action => 'subcategory', :subcategory => 'dress', :breadcrumbsCategory => @category %>
+     </li>
+     <li>
+      <%= link_to "Business Attire", :action => 'subcategory', :subcategory => 'business', :breadcrumbsCategory => @category %>
+     </li>
+     <li>
+      <%= link_to "Casual", :action => 'subcategory', :subcategory => 'casual-Women', :breadcrumbsCategory => @category %>
+     </li>
+     <li>
+      <%= link_to "Jumpers and Coats", :action => 'subcategory', :subcategory => 'coats-Women', :breadcrumbsCategory => @category %>
+     </li>
+     <li>
+     <%= link_to "Shoes", :action => 'subcategory', :subcategory => 'shoes-Women', :breadcrumbsCategory => @category %>
+    </li>
+    <li>
+     <%= link_to "Accessories", :action => 'subcategory', :subcategory => 'accessories-Women', :breadcrumbsCategory => @category %>
+    </li>
+     <% end %>
+
+    <% if @category.eql? 'men' %>
+     <li>
+      <%= link_to "Suits", :action => 'subcategory', :subcategory => 'suits', :breadcrumbsCategory => @category %>
+     </li>
+     <li>
+      <%= link_to "Casual", :action => 'subcategory', :subcategory => 'casual-Men', :breadcrumbsCategory => @category %>
+     </li>
+     <li>
+      <%= link_to "Jumpers and Coat", :action => 'subcategory', :subcategory => 'coats-Men', :breadcrumbsCategory => @category %>
+     </li>
+     <li>
+     <%= link_to "Shoes", :action => 'subcategory', :subcategory => 'shoes-Men', :breadcrumbsCategory => @category %>
+    </li>
+    <li>
+     <%= link_to "Accessories", :action => 'subcategory', :subcategory => 'accessories-Men', :breadcrumbsCategory => @category %>
+    </li>
+    <% end %>
+    
+    <% if @category.eql? 'sport' %>
+     <li>
+      <%= link_to "Women's Sport Gear", :action => 'subcategory', :subcategory => 'gear-Women', :breadcrumbsCategory => @category %>
+     </li>
+     <li>
+      <%= link_to "Men's Sport Gear", :action => 'subcategory', :subcategory => 'gear-Men', :breadcrumbsCategory => @category %>
+     </li>
+     <li>
+      <%= link_to "Women's Shoes", :action => 'subcategory', :subcategory => 'sport-Shoes-Women', :breadcrumbsCategory => @category %>
+     </li>
+     <li>
+      <%= link_to "Men's Shoes", :action => 'subcategory', :subcategory => 'sport-Shoes-Men', :breadcrumbsCategory => @category %>
+     </li>
+      <li>
+      <%= link_to "Workout Equipment", :action => 'subcategory', :subcategory => 'equipment', :breadcrumbsCategory => @category %>
+     </li>
+    <% end %>
+  
+   </ul>
+  </div>
+  
+  <div id="pri">
+   <h4>Price Range</h4>
+   <ul>
+    <li>
+     <%= link_to "€0 - €30", :action => 'priceRange', :subcategory => @subcategory, :breadcrumbsCategory => @category, :min => 0, :max => 30 %>
+    </li>
+    <li>
+     <%= link_to "€30 - €70", :action => 'priceRange', :subcategory => @subcategory, :breadcrumbsCategory => @category, :min => 30, :max => 70 %>
+    </li>
+    <li>
+     <%= link_to "€70 - €150", :action => 'priceRange', :subcategory => @subcategory, :breadcrumbsCategory => @category, :min => 70, :max => 150 %>
+    </li>
+    <li>
+     <%= link_to "€150 - €300", :action => 'priceRange', :subcategory => @subcategory, :breadcrumbsCategory => @category, :min => 150, :max => 300 %>
+    </li>
+    <li>
+     <%= link_to "300+", :action => 'priceRange', :subcategory => @subcategory, :breadcrumbsCategory => @category, :min => 300, :max => "none" %>
+    </li>
+   </ul>
+  </div>
+ </div>
+</div>
+ 
+<div id="products">
+ <div id="breadcrumbs" style="padding-top: 1%; padding-left: 1%;">
+  <ul>
+    <li>
+      <h4><%= link_to "Home", :action => 'home', :controller => :site %></h4>
+    </li>
+    <li>
+      >
+    </li>
+    <li>
+      <h4><%= link_to @category.titlecase, :action => @category, :breadcrumbsCategory => @category %></h4>
+    </li>
+    <li>
+      >
+    </li>
+    <% if @subcategory != 'none' %>
+    <li>
+      <h4>
+       <%= link_to @subcategory.titlecase, :action => 'subcategory', 
+       :subcategory => @subcategory, :breadcrumbsCategory => @category %>
+      </h4>
+    </li>
+    <li>
+      >
+    </li>
+    <% end %>
+  </ul>
+ </div>
+ <table id="productsTable">
+  <col width="23%" />
+  <col width="23%" />
+  <col width="23%" />
+  <col width="23%" />
+ <% @products.each_with_index do |product, index| %>
+  <% if index % 4 == 0 %>
+   <tr>
+  <% end %>
+   <td>
+    <div class="eachproduct">
+      <%= render partial: "product", locals: {product: product, index: index} %>
+    </div>
+   </td>
+   <% if index % 4 == 3 %>
+    </tr>
+   <% end %>
+  <% end %>
+  <!-- Extra td have to be added to correct table spacing to four in a row, aesthetic hacking -->
+  <% if @products.length < 4 %>
+    <td>
+    </td>
+    <% if @products.length < 3 %>
+     <td>
+     </td>
+     <% if @products.length < 2 %>
+      <td>
+      </td>
+     <% end %>
+    <% end %>
+   <% end %>
+  </table>
+  <% if @products.length == 0 && params[:searchbar] != nil %>
+   <p ckass="nomatches">Sorry, no matches found for: "<%= params[:searchbar] %>"</p>
+  <% elsif @products.length == 0 %>
+   <p class="nomatches">Sorry, no matches found in this price range</p>
+  <% end %>
+ </div>
+
+<% end %>

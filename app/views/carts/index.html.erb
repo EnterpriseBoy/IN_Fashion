@@ -1,0 +1,61 @@
+<% content_for :title do %>
+My Shopping Bag
+<% end %>
+
+<% content_for :header do %>
+<% end %>
+
+<% content_for :content do %>
+<h1 class="h1fullwidth">My Shopping Bag</h1>
+<div class="topgradientdiv">
+<% if session[:username] %>
+  <div class="cartItem">
+    <div class="cartTitle">
+      Example - Title Here
+    </div>
+    <div class="cartQuantity">
+      Quantity Here
+    </div>
+    <div class="cartColor">
+      Color Here
+    </div>
+    <div class="cartSize">
+      Size Here
+    </div>
+    <div class="cartPrice">
+      €Price Here
+    </div>
+  </div>
+  
+  <div id="total">
+    <div id="itemscnt">
+      <h3>*Count* items</h3>
+    </div>
+    <h3>Total: €</h3>
+  </div>
+  <% OrderItem.where(:OrderId => '0').all.each do |oi|%>
+  <div class="cartItem">
+    <div class="cartTitle">
+     
+      <%= Product.where(:id => oi.Product_id).select("Title") %>
+    </div>
+    <div class="cartQuantity">
+      <%= oi.Quantity %>
+    </div>
+    <div class="cartColor">
+      <%= oi.Colour %>
+    </div>
+    <div class="cartSize">
+      <%= oi.Size %>
+    </div>
+    <div class="cartPrice">
+      <%= oi.Total_Price %>
+    </div>
+  </div>
+  <%end%>
+<% else %>
+  <p>Please Login to view your shopping bag.</p>
+<% end %>
+
+</div>
+<% end %>
